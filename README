@@ -1,4 +1,4 @@
-LIMITED-THREAD-TASKMASTER is simple HUNCHENTOOT:TASKMASTER subclass
+LIMITED-THREAD-TASKMASTER is a simple HUNCHENTOOT:TASKMASTER subclass
 that limits the number of worker threads.
 
 Hunchentoot's default TASKMASTER creates a new thread each time a
