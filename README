@@ -1,0 +1,42 @@
+LIMITED-THREAD-TASKMASTER is simple HUNCHENTOOT:TASKMASTER subclass
+that limits the number of worker threads.
+
+Hunchentoot's default TASKMASTER creates a new thread each time a
+request comes in, and destroys that thread as soon as it's finished
+serving the request. LIMITED-THEAD-TASKMASTER allows you to set a
+limit to the total number of threads created, and leaves them running
+to serve requests faster. If a request comes in when all the worker
+threads are busy, it will be queued until one of the workers can serve
+it.
+
+Exported symbols:
+
+LIMITED-THREAD-TASKMASTER
+Subclass of HUNCHENTOOT:TASKMASTER
+-----
+Use an instance of this class as the :TASKMASTER initarg for a
+HUNCHENTOOT:ACCEPTOR to get limited threads.
+
+LIMITED-THREAD-ACCEPTOR
+Subclass of HUNCHENTOOT:ACCEPTOR
+-----
+Pass an instance of this class, or a subclass, to HUNCHENTOOT:START to
+get limited threads. E.g.
+
+  (hunchentoot:start
+    (make-instance 'limited-thread-taskmaster:limited-thread-acceptor
+                   :port 8080))
+
+LIMITED-THREAD-LIMIT ()
+Function
+-----
+Return the maximum number of threads that will be created to serve
+all the LIMITED-THREAD-TASKMASTER instances. All limited thread
+acceptors share on process pool.
+
+(SETF LIMITED-THREAD-LIMIT) (limit)
+Function
+-----
+Set the maximum number of threads that will be created to serve all
+LIMITED-THREAD-TASKMASTER instances. This affects current and future
+instances.
