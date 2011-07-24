@@ -12,6 +12,7 @@
   (:export
    #:limited-thread-taskmaster
    #:limited-thread-acceptor
+   #:limited-thread-ssl-acceptor
    #:limited-thread-limit
    ))
 

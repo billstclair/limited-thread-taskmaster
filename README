@@ -27,6 +27,12 @@ get limited threads. E.g.
     (make-instance 'limited-thread-taskmaster:limited-thread-acceptor
                    :port 8080))
 
+LIMITED-THREAD-SSL-ACCEPTOR
+Subclass of HUNCHENTOOT:SSL-ACCEPTOR
+-----
+Same as LIMITED-THREAD-ACCEPTOR but based on HUNCHENTOOT:SSL-ACCEPTOR
+instead of HUNCHENTOOT:ACCEPTOR.
+
 LIMITED-THREAD-LIMIT ()
 Function
 -----

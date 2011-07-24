@@ -68,6 +68,12 @@ LIMIT must be an integer >= 2."
    :taskmaster (make-instance 'limited-thread-taskmaster))
   (:documentation "A Hunchentoot acceptor that uses a limited-thread-taskmaster to imit the number of worker threads."))
 
+(defclass limited-thread-ssl-acceptor (hunchentoot:ssl-acceptor)
+  ()
+  (:default-initargs
+   :taskmaster (make-instance 'limited-thread-taskmaster))
+  (:documentation "A Hunchentoot SSL acceptor that uses a limited-thread-taskmaster to imit the number of worker threads."))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;; Copyright 2011 Bill St. Clair
