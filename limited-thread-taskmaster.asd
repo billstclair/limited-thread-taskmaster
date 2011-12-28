@@ -5,7 +5,7 @@
 (asdf:defsystem :limited-thread-taskmaster
   :description "A taskmaster for Hunchentoot that limits the number of worker threads."
   :author "Bill St. Clair <bill@billstclair.com>"
-  :version "1.0"
+  :version "1.1"
   :license "Apache"
   :depends-on (hunchentoot eager-future)
   :components

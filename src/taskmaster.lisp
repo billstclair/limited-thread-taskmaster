@@ -55,9 +55,9 @@ LIMIT must be an integer >= 2."
            #+ccl
            (setf (ccl:process-name thread) "Hunchentoot worker (idle)"))))
      (error (cond)
-       ;; need to bind *ACCEPTOR* so that LOG-MESSAGE can do its work.
+       ;; need to bind *ACCEPTOR* so that LOG-MESSAGE* can do its work.
        (let ((hunchentoot:*acceptor* (hunchentoot:taskmaster-acceptor taskmaster)))
-         (hunchentoot:log-message
+         (hunchentoot:log-message*
           hunchentoot:*lisp-errors-log-level*
           "Error while scheduling new incoming connection: ~A"
           cond))))))
