@@ -37,6 +37,13 @@ LIMIT must be an integer >= 2."
                 :accessor thread-pool-of))
   (:documentation "A Hunchentoot taskmaster that limits the number of worker threads."))
 
+(defparameter *log-message-fn*
+  (cond ((fboundp 'hunchentoot::log-message)
+         'hunchentoot::log-message)
+        ((fboundp 'hunchentoot::log-message*)
+         'hunchentoot::log-message*)
+        (t (lambda (&rest rest) (declare (ignore rest))))))
+
 (defmethod hunchentoot:handle-incoming-connection
     ((taskmaster limited-thread-taskmaster) socket)
   (let ((eager-future:*thread-pool* (thread-pool-of taskmaster)))
@@ -57,15 +64,28 @@ LIMIT must be an integer >= 2."
      (error (cond)
        ;; need to bind *ACCEPTOR* so that LOG-MESSAGE can do its work.
        (let ((hunchentoot:*acceptor* (hunchentoot:taskmaster-acceptor taskmaster)))
-         (hunchentoot:log-message
+         (funcall *log-message-fn*
           hunchentoot:*lisp-errors-log-level*
           "Error while scheduling new incoming connection: ~A"
           cond))))))
 
-(defclass limited-thread-acceptor (hunchentoot:acceptor)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+
+(when (find-class 'hunchentoot::easy-acceptor nil)
+  (pushnew :hunchentoot-easy-acceptor *features*))
+(when (fboundp 'hunchentoot::acceptor-access-log-destination)
+  (pushnew :hunchentoot-access-log-destination *features*))
+)
+
+(defclass limited-thread-acceptor (#+hunchentoot-easy-acceptor
+                                   hunchentoot:easy-acceptor
+                                   #-hunchentoot-easy-acceptor
+                                   hunchentoot:acceptor)
   ()
   (:default-initargs
-   :taskmaster (make-instance 'limited-thread-taskmaster))
+   :taskmaster (make-instance 'limited-thread-taskmaster)
+    #+hunchentoot-access-log-destination :access-log-destination
+    #+hunchentoot-access-log-destination nil)
   (:documentation "A Hunchentoot acceptor that uses a limited-thread-taskmaster to imit the number of worker threads."))
 
 (defclass limited-thread-ssl-acceptor (hunchentoot:ssl-acceptor)
