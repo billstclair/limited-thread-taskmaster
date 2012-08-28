@@ -14,6 +14,7 @@
    #:limited-thread-acceptor
    #:limited-thread-ssl-acceptor
    #:limited-thread-limit
+   #:eager-future-pool
    ))
 
 
