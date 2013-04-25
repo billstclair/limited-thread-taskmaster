@@ -88,6 +88,7 @@ LIMIT must be an integer >= 2."
     #+hunchentoot-access-log-destination nil)
   (:documentation "A Hunchentoot acceptor that uses a limited-thread-taskmaster to imit the number of worker threads."))
 
+#-hunchentoot-no-ssl
 (defclass limited-thread-ssl-acceptor (hunchentoot:ssl-acceptor)
   ()
   (:default-initargs
@@ -96,7 +97,7 @@ LIMIT must be an integer >= 2."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Copyright 2011 Bill St. Clair
+;;; Copyright 2011-2013 Bill St. Clair
 ;;;
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
